@@ -1,0 +1,47 @@
+/* HEiDi-Farben (aus css/tokens.css der App) */
+:root {
+  --md-primary-fg-color: #0069d9;
+  --md-primary-fg-color--light: #3d8ae6;
+  --md-primary-fg-color--dark: #0055b8;
+  --md-accent-fg-color: #d62132;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1f5fd6;
+  --md-accent-fg-color: #ff6b78;
+}
+
+/* Screenshots der App: im Handy-Format, mit runden Ecken und dezentem Schatten */
+img.screenshot {
+  width: 260px;
+  max-width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, .12);
+  box-shadow: 0 6px 18px rgba(18, 32, 74, .18);
+}
+
+/* Screenshot rechts neben dem Text, auf schmalen Bildschirmen darunter */
+.screenshot-rechts {
+  float: right;
+  margin: 0 0 1rem 1.5rem;
+}
+@media screen and (max-width: 44.9375em) {
+  .screenshot-rechts { float: none; margin: 1rem 0; display: block; text-align: center; }
+}
+
+/* Mehrere Screenshots nebeneinander */
+.screenshots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.screenshots figure { margin: 0; text-align: center; }
+.screenshots img.screenshot { width: 200px; }
+.screenshots figcaption { font-size: .75rem; color: var(--md-default-fg-color--light); }
+
+/* Klickwege wie „Einstellungen › Pakete“ */
+.klickweg {
+  font-weight: 600;
+  white-space: nowrap;
+}

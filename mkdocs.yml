@@ -1,0 +1,90 @@
+site_name: HEiDi-Benutzerhandbuch
+site_description: Das Nachschlagewerk zu allen Funktionen der HEiDi-App – der Hilfeapp für Einsatzdienste.
+site_author: Verein zur digitalen Unterstützung von Einsatzdiensten e.V.
+site_url: https://vdue-e-v.github.io/heidi-benutzerhandbuch/
+repo_url: https://github.com/VdUE-e-V/heidi-benutzerhandbuch
+repo_name: VdUE-e-V/heidi-benutzerhandbuch
+edit_uri: edit/main/docs/
+copyright: >-
+  Texte und Bilder: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de">CC BY-SA 4.0</a>
+  · Verein zur digitalen Unterstützung von Einsatzdiensten e.V.
+  · <a href="https://www.hilfeapp.org">hilfeapp.org</a>
+
+theme:
+  name: material
+  language: de
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Dunkles Design
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Helles Design
+  # Keine Google Fonts laden (Datenschutz): Systemschriften verwenden
+  font: false
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.action.edit
+    - toc.follow
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Link zu diesem Abschnitt
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.keys
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Start: index.md
+  - Erste Schritte:
+      - erste-schritte/index.md
+      - Was ist HEiDi?: erste-schritte/was-ist-heidi.md
+      - Installation: erste-schritte/installation.md
+      - Registrieren und anmelden: erste-schritte/registrieren-und-anmelden.md
+      - Pakete und Handbücher einrichten: erste-schritte/pakete-und-handbuecher.md
+  - Die App im Einsatz:
+      - app/index.md
+      - Startseite: app/startseite.md
+      - Einsätze: app/einsaetze.md
+      - Checklisten und Protokolle: app/checklisten-und-protokolle.md
+      - Material: app/material.md
+      - Handbücher: app/handbuecher.md
+      - Kontakte: app/kontakte.md
+      - Offline arbeiten: app/offline.md
+  - Einstellungen: einstellungen.md
+  - Hilfe:
+      - Häufige Fragen: hilfe/faq.md
+      - Glossar: hilfe/glossar.md
+      - Neuigkeiten: hilfe/neuigkeiten.md
+  - Mitmachen: mitmachen.md
