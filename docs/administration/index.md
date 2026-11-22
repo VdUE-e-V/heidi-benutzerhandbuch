@@ -5,6 +5,7 @@ Diese Kapitel richten sich an Organisationen, die HEiDi auf einem **eigenen Serv
 Für die meisten Nutzerinnen und Nutzer ist das nicht nötig: Der **HEiDi Standardserver** des VdUE steht allen kostenlos zur Verfügung.
 
 - **[Eigenen Server betreiben](eigener-server.md)** – Server einrichten: Zeitzone, Java, Apache als Reverse Proxy, HTTPS, Firewall, Datenbank und das Backend als Dienst.
+- **[Server mit cloud-init einrichten](cloud-init.md)** – dieselbe Einrichtung automatisch, z. B. beim Erstellen eines Servers bei Hetzner Cloud.
 
 !!! info "Unterstützung"
     Du planst einen eigenen Server? Melde dich vorab beim HEiDi-Team unter [info@hilfeapp.org](mailto:info@hilfeapp.org) – wir helfen bei der Einrichtung.

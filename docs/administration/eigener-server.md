@@ -2,6 +2,9 @@
 
 Diese Anleitung beschreibt, wie du einen eigenen HEiDi-Backend-Server einrichtest: Zeitzone und Java, Apache als Reverse Proxy mit HTTPS, eine Firewall, die MariaDB-Datenbank und das Backend selbst als Dienst. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
 
+!!! tip "Automatisch einrichten"
+    Du richtest einen neuen Cloud-Server ein? Mit der [cloud-init-Konfiguration](cloud-init.md) laufen alle Schritte dieser Anleitung automatisch ab.
+
 !!! warning "Für erfahrene Administratoren"
     Du brauchst Root-Zugang zu einem Linux-Server und Grundkenntnisse in Apache, Firewall und Datenbanken. Plane auch den laufenden Betrieb ein: Updates, Backups und Überwachung liegen bei dir.
 
