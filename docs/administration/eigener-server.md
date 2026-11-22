@@ -1,6 +1,6 @@
 # Eigenen Server betreiben
 
-Diese Anleitung beschreibt, wie du die **Laufzeitumgebung** für einen eigenen HEiDi-Backend-Server einrichtest: Java, Apache als Reverse Proxy mit HTTPS, eine Firewall und die MariaDB-Datenbank. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
+Diese Anleitung beschreibt, wie du die **Laufzeitumgebung** für einen eigenen HEiDi-Backend-Server einrichtest: Zeitzone und Java, Apache als Reverse Proxy mit HTTPS, eine Firewall und die MariaDB-Datenbank. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
 
 !!! warning "Für erfahrene Administratoren"
     Du brauchst Root-Zugang zu einem Linux-Server und Grundkenntnisse in Apache, Firewall und Datenbanken. Plane auch den laufenden Betrieb ein: Updates, Backups und Überwachung liegen bei dir.
@@ -31,12 +31,25 @@ MariaDB         127.0.0.1:3306
 - Eine **Domain**, die auf den Server zeigt, z. B. `heidi.example.org`
 - **Apache 2.4.47 oder neuer** (wegen der WebSocket-Weiterleitung, siehe unten) – prüfen mit `apache2 -v`
 - **MariaDB**
-- **Java** – siehe Schritt 1
+- **Java** und die richtige **Zeitzone** – siehe Schritt 1
 - Das **HEiDi-Backend** selbst: [Installation des Backends – wird ergänzt]
 
 In dieser Anleitung steht `heidi.example.org` für deine Domain. Ersetze sie überall durch deine eigene Adresse.
 
-## 1. Java installieren
+## 1. Grundeinrichtung: Zeitzone und Java
+
+### Zeitzone einstellen
+
+Stelle die Zeitzone des Servers auf deutsche Zeit. Sonst stehen in Protokollen und Zeitstempeln Uhrzeiten in UTC, also eine bzw. zwei Stunden versetzt:
+
+```bash
+sudo timedatectl set-timezone "Europe/Berlin"
+timedatectl
+```
+
+Bei `Time zone` sollte jetzt `Europe/Berlin` stehen, und `System clock synchronized` sollte `yes` anzeigen.
+
+### Java installieren
 
 Das HEiDi-Backend ist eine Java-Anwendung. Installiere die Java-Laufzeitumgebung aus den Paketquellen deiner Distribution:
 
