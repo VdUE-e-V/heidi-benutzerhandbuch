@@ -88,6 +88,7 @@ nav:
   - Für Administratoren:
       - administration/index.md
       - Eigenen Server betreiben: administration/eigener-server.md
+      - Server mit cloud-init einrichten: administration/cloud-init.md
   - Hilfe:
       - Häufige Fragen: hilfe/faq.md
       - Glossar: hilfe/glossar.md

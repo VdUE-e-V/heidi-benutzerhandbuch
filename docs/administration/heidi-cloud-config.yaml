@@ -1,0 +1,243 @@
+#cloud-config
+#
+# HEiDi-Backend-Server per cloud-init einrichten
+# -----------------------------------------------
+# Anleitung: https://vdue-e-v.github.io/heidi-benutzerhandbuch/administration/cloud-init/
+#
+# Vor dem Einfügen anpassen (alle Stellen mit <...>):
+#   1. <ADMIN_BENUTZER>       Name deines Admin-Benutzers für SSH, z. B. holu
+#   2. <PUBLIC_SSH_KEY>       dein öffentlicher SSH-Schlüssel (Inhalt von ~/.ssh/id_ed25519.pub)
+#   3. <DOMAIN>               Domain des Servers, z. B. heidi.example.org (muss auf die Server-IP zeigen)
+#   4. <LETSENCRYPT_EMAIL>    E-Mail-Adresse für Hinweise von Let's Encrypt
+#
+# Passwörter für Datenbank und HEiDi-Administrator erzeugt der Server beim ersten Start selbst
+# und legt sie in /root/heidi-zugangsdaten.txt ab (nur für root lesbar).
+#
+# Aufbau angelehnt an das Hetzner-Community-Tutorial „Grundlegende Cloud-Konfiguration“ (MIT-Lizenz).
+# Getestet für Ubuntu 24.04.
+
+timezone: Europe/Berlin
+
+users:
+  - name: <ADMIN_BENUTZER>
+    groups: users, admin
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - <PUBLIC_SSH_KEY>
+
+package_update: true
+package_upgrade: true
+packages:
+  - fail2ban
+  - ufw
+  - curl
+  - openssl
+  - default-jre-headless
+  - apache2
+  - certbot
+  - python3-certbot-apache
+  - mariadb-server
+
+write_files:
+  # Einstellungen für die Einrichtung – hier Domain und E-Mail eintragen
+  - path: /root/heidi-config.env
+    permissions: '0600'
+    content: |
+      HEIDI_DOMAIN="<DOMAIN>"
+      LETSENCRYPT_EMAIL="<LETSENCRYPT_EMAIL>"
+      ROOT_JAR_URL="https://cloud.hilfeapp.org/s/Heidibackend/download"
+      DB_NAME="heidi_db"
+      DB_USER="heidi_user"
+      ADMIN_USERNAME="admin"
+
+  # SSH absichern: kein Root-Login, nur Schlüssel, Port 2222
+  - path: /etc/ssh/sshd_config.d/ssh-hardening.conf
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      Port 2222
+      KbdInteractiveAuthentication no
+      ChallengeResponseAuthentication no
+      MaxAuthTries 2
+      AllowTcpForwarding no
+      X11Forwarding no
+      AllowAgentForwarding no
+      AuthorizedKeysFile .ssh/authorized_keys
+      AllowUsers <ADMIN_BENUTZER>
+
+  # fail2ban für SSH auf Port 2222
+  - path: /etc/fail2ban/jail.local
+    defer: true
+    content: |
+      [sshd]
+      enabled = true
+      port = ssh, 2222
+      banaction = iptables-multiport
+
+  # MariaDB für große Dateien
+  - path: /etc/mysql/mariadb.conf.d/60-heidi.cnf
+    defer: true
+    content: |
+      [mariadbd]
+      max_allowed_packet = 1G
+
+  # Apache als Reverse Proxy (Certbot erzeugt daraus die HTTPS-Konfiguration)
+  - path: /etc/apache2/sites-available/heidi.conf
+    defer: true
+    content: |
+      <VirtualHost *:80>
+          ServerName HEIDI_DOMAIN_PLATZHALTER
+
+          ProxyRequests Off
+          ProxyPreserveHost On
+          ProxyAddHeaders On
+
+          RequestHeader unset Forwarded
+          RequestHeader unset X-Forwarded-For
+          RequestHeader unset X-Forwarded-Host
+          RequestHeader unset X-Forwarded-Server
+          RequestHeader unset X-Forwarded-Proto
+          RequestHeader unset X-Forwarded-Port
+          RequestHeader set X-Forwarded-Proto "https"
+          RequestHeader set X-Forwarded-Port "443"
+
+          ProxyPass        / http://127.0.0.1:8080/ upgrade=websocket
+          ProxyPassReverse / http://127.0.0.1:8080/
+
+          ErrorLog ${APACHE_LOG_DIR}/heidi-error.log
+          CustomLog ${APACHE_LOG_DIR}/heidi-access.log combined
+      </VirtualHost>
+
+  # systemd-Dienst für das Backend
+  - path: /etc/systemd/system/heidi.service
+    content: |
+      [Unit]
+      Description=HEiDi
+      After=network.target mariadb.service
+      Wants=mariadb.service
+
+      [Service]
+      User=heidi
+      WorkingDirectory=/var/HEiDi
+      ExecStart=/bin/bash -c 'source /etc/HEiDi/environment.sh && exec /usr/bin/java -jar /var/HEiDi/ROOT.jar'
+      SuccessExitStatus=143
+      Restart=on-failure
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target
+
+  # Einrichtungsskript: Benutzer, Datenbank, Konfiguration, Backend, Zertifikat
+  - path: /root/heidi-setup.sh
+    permissions: '0700'
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      source /root/heidi-config.env
+      log() { printf '[heidi-setup] %s\n' "$*"; }
+
+      # Zufällige Passwörter erzeugen (nur Buchstaben und Ziffern)
+      DB_PASSWORD=$(openssl rand -base64 48 | tr -dc 'A-Za-z0-9' | head -c 32)
+      ADMIN_PASSWORD=$(openssl rand -base64 48 | tr -dc 'A-Za-z0-9' | head -c 24)
+
+      log "Dienst-Benutzer und Verzeichnisse"
+      if ! getent passwd heidi >/dev/null && ! getent group heidi >/dev/null; then
+          useradd --system --user-group --no-create-home --home-dir /nonexistent --shell /usr/sbin/nologin heidi
+      fi
+      install -d -o root -g heidi -m 750 /var/HEiDi /etc/HEiDi
+
+      log "Datenbank"
+      systemctl restart mariadb
+      mariadb <<SQL
+      CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4;
+      CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+      ALTER USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+      GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';
+      FLUSH PRIVILEGES;
+      SQL
+
+      log "Konfiguration /etc/HEiDi/environment.sh"
+      env_file=/etc/HEiDi/environment.sh
+      umask 077
+      {
+          for pair in \
+              "SERVER_PORT=8080" \
+              "SERVER_ADDRESS=127.0.0.1" \
+              "TOMCAT_CONNECTION_TIMEOUT=300" \
+              "TOMCAT_KEEP_ALIVE_TIMEOUT=300" \
+              "SERVER_COMPRESSION_ENABLED=false" \
+              "MAX_FILE_SIZE=100MB" \
+              "MAX_REQUEST_SIZE=100MB" \
+              "MYSQL_HOST=localhost" \
+              "MYSQL_PORT=3306" \
+              "MYSQL_DATABASE_NAME=${DB_NAME}" \
+              "MYSQL_USERNAME=${DB_USER}" \
+              "DB_PASSWORD=${DB_PASSWORD}" \
+              "HIBERNATE_DDL_AUTO=update" \
+              "LOG_LEVEL_ATMOSPHERE=warn" \
+              "LOG_LEVEL_HIBERNATE_SQL=ERROR" \
+              "LOG_LEVEL_HIBERNATE_SQL_TYPE=error" \
+              "LOG_LEVEL_HIKARI_CONFIG=ERROR" \
+              "ADMIN_INITIAL_USERNAME=${ADMIN_USERNAME}" \
+              "ADMIN_INITIAL_PASSWORD=${ADMIN_PASSWORD}" \
+              "STORAGE_PATH=" \
+              "MAIL_USERNAME=" \
+              "MAIL_PASSWORD=" \
+              "MAIL_SERVER=" \
+              "MAIL_TRANSPORT_PROTOCOL=" \
+              "MAIL_PORT=" \
+              "MAIL_USE_AUTH=" \
+              "MAIL_START_TLS_ENABLE=" \
+              "MAIL_START_TLS_REQUIRED="; do
+              printf 'export %s=%q\n' "${pair%%=*}" "${pair#*=}"
+          done
+      } > "$env_file"
+      chown root:heidi "$env_file"
+      chmod 640 "$env_file"
+
+      log "Backend herunterladen"
+      curl -fL --retry 3 -o /root/ROOT.jar "$ROOT_JAR_URL"
+      install -o root -g heidi -m 640 /root/ROOT.jar /var/HEiDi/ROOT.jar
+
+      log "Backend als Dienst starten"
+      systemctl daemon-reload
+      systemctl enable --now heidi
+
+      log "Apache"
+      sed -i "s/HEIDI_DOMAIN_PLATZHALTER/${HEIDI_DOMAIN}/" /etc/apache2/sites-available/heidi.conf
+      a2enmod proxy proxy_http headers ssl
+      a2dissite 000-default
+      a2ensite heidi
+      apache2ctl configtest
+      systemctl reload apache2
+
+      log "Zugangsdaten nach /root/heidi-zugangsdaten.txt"
+      {
+          printf 'HEiDi-Server %s – eingerichtet am %s\n\n' "$HEIDI_DOMAIN" "$(date '+%d.%m.%Y %H:%M')"
+          printf 'HEiDi-Administrator\n  Benutzername: %s\n  Passwort:     %s\n\n' "$ADMIN_USERNAME" "$ADMIN_PASSWORD"
+          printf 'Datenbank\n  Name:         %s\n  Benutzer:     %s\n  Passwort:     %s\n\n' "$DB_NAME" "$DB_USER" "$DB_PASSWORD"
+          printf 'Alle Einstellungen: /etc/HEiDi/environment.sh\n'
+      } > /root/heidi-zugangsdaten.txt
+      chmod 600 /root/heidi-zugangsdaten.txt
+
+      log "HTTPS-Zertifikat"
+      if certbot --apache -d "$HEIDI_DOMAIN" --non-interactive --agree-tos -m "$LETSENCRYPT_EMAIL" --redirect; then
+          log "Zertifikat eingerichtet: https://${HEIDI_DOMAIN}"
+      else
+          log "WARNUNG: Zertifikat konnte nicht eingerichtet werden. Zeigt die Domain schon auf diesen Server?"
+          log "Später nachholen mit: sudo certbot --apache -d ${HEIDI_DOMAIN} --redirect"
+      fi
+
+      log "Fertig."
+
+runcmd:
+  - systemctl enable fail2ban
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow 2222/tcp
+  - ufw allow 80/tcp
+  - ufw allow 443/tcp
+  - ufw --force enable
+  - bash /root/heidi-setup.sh 2>&1 | tee /var/log/heidi-setup.log
+  - reboot
