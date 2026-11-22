@@ -1,6 +1,6 @@
 # Eigenen Server betreiben
 
-Diese Anleitung beschreibt, wie du die **Laufzeitumgebung** für einen eigenen HEiDi-Backend-Server einrichtest: Apache als Reverse Proxy mit HTTPS, eine Firewall und die MariaDB-Datenbank. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
+Diese Anleitung beschreibt, wie du die **Laufzeitumgebung** für einen eigenen HEiDi-Backend-Server einrichtest: Java, Apache als Reverse Proxy mit HTTPS, eine Firewall und die MariaDB-Datenbank. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
 
 !!! warning "Für erfahrene Administratoren"
     Du brauchst Root-Zugang zu einem Linux-Server und Grundkenntnisse in Apache, Firewall und Datenbanken. Plane auch den laufenden Betrieb ein: Updates, Backups und Überwachung liegen bei dir.
@@ -31,11 +31,27 @@ MariaDB         127.0.0.1:3306
 - Eine **Domain**, die auf den Server zeigt, z. B. `heidi.example.org`
 - **Apache 2.4.47 oder neuer** (wegen der WebSocket-Weiterleitung, siehe unten) – prüfen mit `apache2 -v`
 - **MariaDB**
+- **Java** – siehe Schritt 1
 - Das **HEiDi-Backend** selbst: [Installation des Backends – wird ergänzt]
 
 In dieser Anleitung steht `heidi.example.org` für deine Domain. Ersetze sie überall durch deine eigene Adresse.
 
-## 1. Apache-Module aktivieren
+## 1. Java installieren
+
+Das HEiDi-Backend ist eine Java-Anwendung. Installiere die Java-Laufzeitumgebung aus den Paketquellen deiner Distribution:
+
+```bash
+sudo apt update
+sudo apt install default-jre
+```
+
+`default-jre` installiert die Java-Version, die deine Ubuntu- bzw. Debian-Version als Standard vorsieht. Prüfen kannst du die Installation mit:
+
+```bash
+java -version
+```
+
+## 2. Apache-Module aktivieren
 
 ```bash
 sudo a2enmod proxy proxy_http headers ssl
@@ -47,7 +63,7 @@ sudo a2enmod proxy proxy_http headers ssl
 | `headers` | Kopfzeilen der Anfragen setzen und entfernen |
 | `ssl` | HTTPS |
 
-## 2. HTTPS-Zertifikat einrichten
+## 3. HTTPS-Zertifikat einrichten
 
 Für HTTPS brauchst du ein Zertifikat. Kostenlos geht das mit **Let’s Encrypt** und Certbot:
 
@@ -58,7 +74,7 @@ sudo certbot --apache -d heidi.example.org
 
 Certbot legt dabei die Datei `/etc/apache2/sites-available/000-default-le-ssl.conf` an, richtet auf Wunsch die Weiterleitung von HTTP auf HTTPS ein und erneuert das Zertifikat automatisch.
 
-## 3. Apache als Reverse Proxy konfigurieren
+## 4. Apache als Reverse Proxy konfigurieren
 
 Ergänze im `<VirtualHost *:443>`-Block der HTTPS-Konfiguration, z. B. in `000-default-le-ssl.conf`:
 
@@ -108,7 +124,7 @@ sudo systemctl reload apache2
 !!! tip "Große Uploads"
     Wenn Pakete oder Handbücher mit großen PDF-Dateien hochgeladen werden, achte auch auf die Limits in Apache: `LimitRequestBody` (ab Apache 2.4.53 standardmäßig 1 GB) und bei langsamen Verbindungen `ProxyTimeout`.
 
-## 4. Firewall einrichten
+## 5. Firewall einrichten
 
 Prüfe zuerst den aktuellen Stand und welche Dienste auf welchen Ports lauschen:
 
@@ -144,7 +160,7 @@ sudo ufw status numbered
 !!! tip "SSH zusätzlich schützen"
     `sudo ufw limit 22/tcp` statt `allow` bremst wiederholte Anmeldeversuche. Noch sicherer: Anmeldung nur per SSH-Schlüssel und Passwort-Login abschalten.
 
-## 5. MariaDB für große Dateien konfigurieren
+## 6. MariaDB für große Dateien konfigurieren
 
 Damit auch große Dateien (z. B. PDFs in Handbüchern) gespeichert werden können, muss MariaDB größere Datenpakete annehmen. Trage im Abschnitt `[mysqld]` ein:
 
@@ -169,7 +185,7 @@ sudo mariadb -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
 
 Der Wert wird in Byte angezeigt; `1073741824` entspricht 1 GB.
 
-## 6. Server in der App verwenden
+## 7. Server in der App verwenden
 
 Wenn alles läuft, melden sich deine Nutzerinnen und Nutzer so an:
 
@@ -181,7 +197,7 @@ Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</sp
 
 ## Noch zu ergänzen
 
-- [ ] Installation und Aktualisierung des HEiDi-Backends (Paket, Docker oder Quellcode? Java-Version?)
+- [ ] Installation und Aktualisierung des HEiDi-Backends (Bezugsquelle, Start als Dienst, benötigte Java-Mindestversion)
 - [ ] Datenbank und Datenbank-Benutzer für HEiDi anlegen
 - [ ] Konfiguration des Backends (Datenbankzugang, Mailversand, Domain)
 - [ ] Rechtstexte hinterlegen (Datenschutz, AGB, Impressum) – die App lädt sie vom Server
