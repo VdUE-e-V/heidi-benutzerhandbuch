@@ -32,7 +32,7 @@ MariaDB         127.0.0.1:3306
 - **Apache 2.4.47 oder neuer** (wegen der WebSocket-Weiterleitung, siehe unten) – prüfen mit `apache2 -v`
 - **MariaDB**
 - **Java** und die richtige **Zeitzone** – siehe Schritt 1
-- Die Backend-Datei **`ROOT.jar`** vom HEiDi-Team und das Setup-Skript [`setup-env.sh`](setup-env.sh)
+- Die Backend-Datei [**`ROOT.jar`**](https://cloud.hilfeapp.org/s/Heidibackend) und das Setup-Skript [`setup-env.sh`](setup-env.sh)
 
 In dieser Anleitung steht `heidi.example.org` für deine Domain. Ersetze sie überall durch deine eigene Adresse.
 
@@ -374,7 +374,14 @@ sudo systemctl restart heidi
 
 ## 10. Backend installieren und als Dienst starten
 
-Lade die Backend-Datei `ROOT.jar` [Bezugsquelle ergänzen] auf den Server und lege sie mit den richtigen Rechten ab:
+Die aktuelle Version des Backends stellt der VdUE als Datei `ROOT.jar` in der [HEiDi-Cloud](https://cloud.hilfeapp.org/s/Heidibackend) bereit. Lade sie direkt auf den Server:
+
+```bash
+curl -L -o ROOT.jar https://cloud.hilfeapp.org/s/Heidibackend/download
+ls -lh ROOT.jar        # rund 115 MB
+```
+
+Lege sie dann mit den richtigen Rechten ab:
 
 ```bash
 sudo install -o root -g heidi -m 640 ROOT.jar /var/HEiDi/ROOT.jar
@@ -438,9 +445,10 @@ sudo ss -ltnp | grep 8080         # Backend sollte auf 127.0.0.1:8080 lauschen
 
 ### Backend aktualisieren
 
-Eine neue Version installierst du, indem du die Datei ersetzt und den Dienst neu startest:
+Eine neue Version installierst du, indem du die aktuelle Datei herunterlädst, sie ersetzt und den Dienst neu startest:
 
 ```bash
+curl -L -o ROOT.jar https://cloud.hilfeapp.org/s/Heidibackend/download
 sudo install -o root -g heidi -m 640 ROOT.jar /var/HEiDi/ROOT.jar
 sudo systemctl restart heidi
 sudo systemctl status heidi
@@ -460,7 +468,8 @@ Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</sp
 
 ## Noch zu ergänzen
 
-- [ ] Bezugsquelle für `ROOT.jar`, benötigte Java-Mindestversion
+- [ ] Benötigte Java-Mindestversion
+- [ ] Versionsnummer und Prüfsumme für `ROOT.jar`, damit man erkennt, welche Version installiert ist
 - [ ] Rechtstexte hinterlegen (Datenschutz, AGB, Impressum) – die App lädt sie vom Server
 - [ ] CORS-Freigabe, damit die Web-Version auf den Server zugreifen darf
 - [ ] Backups von Datenbank und hochgeladenen Dateien
