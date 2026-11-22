@@ -21,7 +21,7 @@ MariaDB         127.0.0.1:3306
 ```
 
 - **Apache** nimmt alle Anfragen von außen über HTTPS an und leitet sie intern an das Backend weiter.
-- Das **HEiDi-Backend** lauscht nur lokal auf Port **8080** und ist von außen nicht direkt erreichbar.
+- Das **HEiDi-Backend** lauscht auf Port **8080** – nur lokal, wenn du es wie in Schritt 9 beschrieben einstellst. Von außen ist es nicht direkt erreichbar.
 - **MariaDB** speichert Accounts, Pakete, Handbücher und Einsatzdaten.
 - Von außen offen sind nur **22** (SSH), **80** (HTTP, für das Zertifikat und die Weiterleitung) und **443** (HTTPS).
 
@@ -32,7 +32,7 @@ MariaDB         127.0.0.1:3306
 - **Apache 2.4.47 oder neuer** (wegen der WebSocket-Weiterleitung, siehe unten) – prüfen mit `apache2 -v`
 - **MariaDB**
 - **Java** und die richtige **Zeitzone** – siehe Schritt 1
-- Die Backend-Datei **`ROOT.jar`** und das Setup-Skript **`setup-env.sh`** vom HEiDi-Team
+- Die Backend-Datei **`ROOT.jar`** vom HEiDi-Team und das Setup-Skript [`setup-env.sh`](setup-env.sh)
 
 In dieser Anleitung steht `heidi.example.org` für deine Domain. Ersetze sie überall durch deine eigene Adresse.
 
@@ -147,7 +147,7 @@ sudo ufw show added
 sudo ss -ltnp
 ```
 
-In der Ausgabe von `ss -ltnp` sollten das Backend (`8080`) und MariaDB (`3306`) **nur auf `127.0.0.1`** lauschen, nicht auf `0.0.0.0` oder `*`.
+In der Ausgabe von `ss -ltnp` sollte MariaDB (`3306`) **nur auf `127.0.0.1`** lauschen, nicht auf `0.0.0.0` oder `*`. Für das Backend (`8080`) stellst du das in [Schritt 9](#backend-nur-lokal-erreichbar-machen) ein.
 
 Firewall-Regeln festlegen:
 
@@ -268,22 +268,109 @@ Erwartet wird `heidi_user@localhost`.
 
 ## 9. Backend konfigurieren
 
-Die Einstellungen des Backends – zum Beispiel der Datenbankzugang – liegen als Umgebungsvariablen in `/etc/HEiDi/environment.sh`. Diese Datei erzeugt das Setup-Skript `setup-env.sh` [Bezugsquelle ergänzen].
+Die Einstellungen des Backends – Port, Datenbankzugang, Administrator, E-Mail – liegen als Umgebungsvariablen in `/etc/HEiDi/environment.sh`. Diese Datei erzeugt das Setup-Skript **[`setup-env.sh`](setup-env.sh)**.
 
-Lade das Skript auf den Server und führe es **als root** aus:
+Lade das Skript auf den Server, zum Beispiel direkt aus diesem Benutzerhandbuch:
+
+```bash
+curl -O https://vdue-e-v.github.io/heidi-benutzerhandbuch/administration/setup-env.sh
+```
+
+Führe es **als root** aus und gib als Ziel die Konfigurationsdatei an:
 
 ```bash
 sudo bash setup-env.sh /etc/HEiDi/environment.sh
 ```
 
-Schütze die Datei anschließend – sie enthält das Datenbank-Passwort:
+Das Skript fragt die Einstellungen nacheinander ab. In eckigen Klammern steht jeweils der Vorschlag – mit ++enter++ übernimmst du ihn. Passwörter werden unsichtbar eingegeben und müssen zur Bestätigung wiederholt werden.
+
+!!! warning "Datenbankname und -benutzer anpassen"
+    Das Skript schlägt `heidi` als Datenbankname und Datenbank-Benutzer vor. In [Schritt 8](#8-datenbank-anlegen) hast du aber `heidi_db` und `heidi_user` angelegt. Tippe bei diesen beiden Fragen also **`heidi_db`** bzw. **`heidi_user`** ein, statt den Vorschlag zu übernehmen.
+
+### Die Einstellungen im Einzelnen
+
+**Server und Uploads**
+
+| Frage | Vorschlag | Bedeutung |
+|---|---|---|
+| Server port | `8080` | Port des Backends. Muss zur Apache-Konfiguration (`ProxyPass … 127.0.0.1:8080`) passen. |
+| Tomcat connection timeout | `300` | Wartezeit für Verbindungen |
+| Tomcat keep-alive timeout | `300` | wie lange eine Verbindung offen gehalten wird |
+| Compression enabled | `false` | Komprimierung der Antworten |
+| Maximum file size | `100MB` | größte Datei, die hochgeladen werden kann, z. B. ein PDF im Handbuch |
+| Maximum request size | `100MB` | größte Anfrage insgesamt |
+
+**Datenbank**
+
+| Frage | Vorschlag | Bedeutung |
+|---|---|---|
+| Database host | `localhost` | |
+| Database port | `3306` | |
+| Database name | `heidi` | **`heidi_db`** eintragen (siehe oben) |
+| Database username | `heidi` | **`heidi_user`** eintragen (siehe oben) |
+| Database password | – | das Passwort aus Schritt 8 |
+| Hibernate schema management | `update` | Das Backend legt die Tabellen beim ersten Start an und passt sie bei Updates an. So lassen. |
+
+**Logging**
+
+Die vier Log-Level (`warn`, `ERROR`, `error`, `ERROR`) kannst du übernehmen. Bei der Fehlersuche lassen sie sich später erhöhen.
+
+**Administrator und Speicher**
+
+| Frage | Vorschlag | Bedeutung |
+|---|---|---|
+| Initial administrator username | `admin` | Benutzername des ersten Administrators |
+| Initial administrator password | – | Passwort des ersten Administrators |
+| Deprecated storage path | leer | veraltet – leer lassen |
+
+!!! danger "Keine leeren Passwörter"
+    Das Skript erlaubt leere Passwörter. Vergib für den **Administrator** und die **Datenbank** unbedingt lange, zufällige Passwörter – ein leeres Administrator-Passwort würde jedem Zugang zu deinem Server geben.
+
+**E-Mail**
+
+Zugangsdaten des Postfachs, über das der Server E-Mails verschickt, zum Beispiel für die Bestätigung neuer Accounts. Typische Werte für einen Mailserver mit STARTTLS:
+
+| Frage | Beispiel |
+|---|---|
+| Email username | `heidi@example.org` |
+| Email password | Passwort des Postfachs |
+| Email server | `smtp.example.org` |
+| Email transport protocol | `smtp` |
+| SMTP port | `587` |
+| SMTP authentication | `true` |
+| SMTP STARTTLS enabled | `true` |
+| SMTP STARTTLS required | `true` |
+
+Die richtigen Werte bekommst du von deinem E-Mail-Anbieter.
+
+### Datei schützen
+
+Das Skript legt die Datei so an, dass nur `root` sie lesen kann. Damit der Dienst-Benutzer `heidi` sie lesen darf, änderst du Besitzer und Rechte:
 
 ```bash
 sudo chown root:heidi /etc/HEiDi/environment.sh
 sudo chmod 640 /etc/HEiDi/environment.sh
 ```
 
-Jetzt kann nur noch `root` die Datei ändern, und nur der Dienst-Benutzer `heidi` kann sie lesen.
+Jetzt kann nur `root` die Datei ändern, und nur `root` und `heidi` können sie lesen. Das ist wichtig, denn sie enthält alle Passwörter im Klartext.
+
+### Backend nur lokal erreichbar machen
+
+Das Backend nimmt standardmäßig Verbindungen auf **allen** Netzwerkschnittstellen an. Die Firewall aus [Schritt 5](#5-firewall-einrichten) blockiert Port 8080 zwar von außen. Sicherer ist es aber, wenn das Backend gar nicht erst nach außen lauscht. Ergänze dafür am Ende von `environment.sh`:
+
+```bash
+export SERVER_ADDRESS=127.0.0.1
+```
+
+Nach dem Start des Dienstes prüfst du mit `sudo ss -ltnp | grep 8080`, ob das Backend nur noch auf `127.0.0.1:8080` lauscht.
+
+### Einstellungen später ändern
+
+Das Skript überschreibt keine vorhandene Datei. Um Einstellungen zu ändern, bearbeite `/etc/HEiDi/environment.sh` direkt, zum Beispiel mit `sudo nano /etc/HEiDi/environment.sh`, und starte den Dienst danach neu:
+
+```bash
+sudo systemctl restart heidi
+```
 
 ## 10. Backend installieren und als Dienst starten
 
@@ -373,8 +460,7 @@ Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</sp
 
 ## Noch zu ergänzen
 
-- [ ] Bezugsquelle für `ROOT.jar` und `setup-env.sh`, benötigte Java-Mindestversion
-- [ ] Welche Einstellungen `setup-env.sh` abfragt (Datenbankzugang, Mailversand, Domain, Port)
+- [ ] Bezugsquelle für `ROOT.jar`, benötigte Java-Mindestversion
 - [ ] Rechtstexte hinterlegen (Datenschutz, AGB, Impressum) – die App lädt sie vom Server
 - [ ] CORS-Freigabe, damit die Web-Version auf den Server zugreifen darf
 - [ ] Backups von Datenbank und hochgeladenen Dateien
