@@ -1,0 +1,2 @@
+# Shell-Skripte immer mit Unix-Zeilenenden (LF) speichern, sonst bricht bash ab
+*.sh text eol=lf
