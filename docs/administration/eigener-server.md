@@ -172,7 +172,7 @@ max_allowed_packet = 1G
 Wo die Einstellung hingehört:
 
 - auf Ubuntu und Debian am besten in `/etc/mysql/mariadb.conf.d/50-server.cnf`
-- oder in `/etc/mysql/my.cnf` – Hauptsache im Abschnitt `[mysqld]`
+- oder in `/etc/mysql/my.cnf` – Hauptsache im Abschnitt `[mysqld]` oder `[mariadbd]`
 
 `1G` ist der Höchstwert, den MariaDB erlaubt. Ein kleinerer Wert spart Arbeitsspeicher, muss aber für die größte Datei reichen, die hochgeladen wird.
 
