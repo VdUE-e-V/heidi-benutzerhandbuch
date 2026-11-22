@@ -362,15 +362,9 @@ Das Backend nimmt standardmäßig Verbindungen auf **allen** Netzwerkschnittstel
 export SERVER_ADDRESS=127.0.0.1
 ```
 
-Nach dem Start des Dienstes prüfst du mit `sudo ss -ltnp | grep 8080`, ob das Backend nur noch auf `127.0.0.1:8080` lauscht.
+Ob das klappt, prüfst du in [Schritt 10](#10-backend-installieren-und-als-dienst-starten), sobald der Dienst läuft.
 
-### Einstellungen später ändern
-
-Das Skript überschreibt keine vorhandene Datei. Um Einstellungen zu ändern, bearbeite `/etc/HEiDi/environment.sh` direkt, zum Beispiel mit `sudo nano /etc/HEiDi/environment.sh`, und starte den Dienst danach neu:
-
-```bash
-sudo systemctl restart heidi
-```
+Wie du die Einstellungen später änderst, steht unter [Im laufenden Betrieb](#einstellungen-andern).
 
 ## 10. Backend installieren und als Dienst starten
 
@@ -443,6 +437,28 @@ sudo ss -ltnp | grep 8080         # Backend sollte auf 127.0.0.1:8080 lauschen
     Wants=mariadb.service
     ```
 
+## 11. Server in der App verwenden
+
+Wenn alles läuft, melden sich deine Nutzerinnen und Nutzer so an:
+
+1. In der App auf **Registrieren** bzw. **Anmelden** tippen.
+2. **Anderer Server** wählen.
+3. Bei **Server-URL** die Adresse eintragen, z. B. `https://heidi.example.org`.
+
+Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</span> zeigt die App, ob Anmeldung, Paketlisten und Rechtstexte vom Server geladen werden konnten.
+
+## Im laufenden Betrieb
+
+### Einstellungen ändern
+
+Das Setup-Skript überschreibt keine vorhandene Datei. Um Einstellungen zu ändern, bearbeite `/etc/HEiDi/environment.sh` direkt und starte den Dienst danach neu:
+
+```bash
+sudo nano /etc/HEiDi/environment.sh
+sudo systemctl restart heidi
+sudo systemctl status heidi
+```
+
 ### Backend aktualisieren
 
 Eine neue Version installierst du, indem du die aktuelle Datei herunterlädst, sie ersetzt und den Dienst neu startest:
@@ -456,15 +472,12 @@ sudo systemctl status heidi
 
 Mach vorher ein Backup der Datenbank.
 
-## 11. Server in der App verwenden
+### Logs ansehen
 
-Wenn alles läuft, melden sich deine Nutzerinnen und Nutzer so an:
-
-1. In der App auf **Registrieren** bzw. **Anmelden** tippen.
-2. **Anderer Server** wählen.
-3. Bei **Server-URL** die Adresse eintragen, z. B. `https://heidi.example.org`.
-
-Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</span> zeigt die App, ob Anmeldung, Paketlisten und Rechtstexte vom Server geladen werden konnten.
+```bash
+sudo journalctl -u heidi -f              # laufend mitlesen, beenden mit Strg+C
+sudo journalctl -u heidi --since today   # alles von heute
+```
 
 ## Noch zu ergänzen
 
