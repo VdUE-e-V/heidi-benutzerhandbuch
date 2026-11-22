@@ -162,10 +162,10 @@ sudo ufw status numbered
 
 ## 6. MariaDB für große Dateien konfigurieren
 
-Damit auch große Dateien (z. B. PDFs in Handbüchern) gespeichert werden können, muss MariaDB größere Datenpakete annehmen. Trage im Abschnitt `[mysqld]` ein:
+Damit auch große Dateien (z. B. PDFs in Handbüchern) gespeichert werden können, muss MariaDB größere Datenpakete annehmen. Trage im Abschnitt `[mariadb]` ein:
 
 ```ini
-[mysqld]
+[mariadb]
 max_allowed_packet = 1G
 ```
 
