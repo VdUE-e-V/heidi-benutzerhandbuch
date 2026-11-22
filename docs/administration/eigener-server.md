@@ -1,6 +1,6 @@
 # Eigenen Server betreiben
 
-Diese Anleitung beschreibt, wie du die **Laufzeitumgebung** für einen eigenen HEiDi-Backend-Server einrichtest: Zeitzone und Java, Apache als Reverse Proxy mit HTTPS, eine Firewall und die MariaDB-Datenbank. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
+Diese Anleitung beschreibt, wie du einen eigenen HEiDi-Backend-Server einrichtest: Zeitzone und Java, Apache als Reverse Proxy mit HTTPS, eine Firewall, die MariaDB-Datenbank und das Backend selbst als Dienst. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter **Anderer Server** ein.
 
 !!! warning "Für erfahrene Administratoren"
     Du brauchst Root-Zugang zu einem Linux-Server und Grundkenntnisse in Apache, Firewall und Datenbanken. Plane auch den laufenden Betrieb ein: Updates, Backups und Überwachung liegen bei dir.
@@ -32,7 +32,7 @@ MariaDB         127.0.0.1:3306
 - **Apache 2.4.47 oder neuer** (wegen der WebSocket-Weiterleitung, siehe unten) – prüfen mit `apache2 -v`
 - **MariaDB**
 - **Java** und die richtige **Zeitzone** – siehe Schritt 1
-- Das **HEiDi-Backend** selbst: [Installation des Backends – wird ergänzt]
+- Die Backend-Datei **`ROOT.jar`** und das Setup-Skript **`setup-env.sh`** vom HEiDi-Team
 
 In dieser Anleitung steht `heidi.example.org` für deine Domain. Ersetze sie überall durch deine eigene Adresse.
 
@@ -198,7 +198,170 @@ sudo mariadb -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
 
 Der Wert wird in Byte angezeigt; `1073741824` entspricht 1 GB.
 
-## 7. Server in der App verwenden
+## 7. Dienst-Benutzer und Verzeichnisse anlegen
+
+Das Backend läuft unter einem eigenen Systembenutzer `heidi` ohne Login und ohne Home-Verzeichnis. So hat es nur die Rechte, die es wirklich braucht.
+
+Prüfe zuerst, ob es Benutzer oder Gruppe schon gibt:
+
+```bash
+getent passwd heidi
+getent group heidi
+```
+
+Liefern **beide** Befehle keine Ausgabe, lege den Benutzer an:
+
+```bash
+sudo useradd --system --user-group --no-create-home \
+  --home-dir /nonexistent --shell /usr/sbin/nologin heidi
+```
+
+Ergebnis prüfen:
+
+```bash
+id heidi
+getent passwd heidi
+```
+
+Lege dann die beiden Verzeichnisse an – `/var/HEiDi` für das Backend und `/etc/HEiDi` für die Konfiguration:
+
+```bash
+sudo install -d -o root -g heidi -m 750 /var/HEiDi /etc/HEiDi
+```
+
+Beide gehören `root`; die Gruppe `heidi` darf lesen, aber nichts verändern.
+
+## 8. Datenbank anlegen
+
+Öffne die Datenbank-Konsole:
+
+```bash
+sudo mariadb
+```
+
+Lege Datenbank und Benutzer an und vergib die Rechte. Ersetze `PASSWORT` durch ein **langes, zufälliges Passwort**, das du sonst nirgends verwendest:
+
+```sql
+CREATE DATABASE heidi_db CHARACTER SET utf8mb4;
+
+CREATE USER 'heidi_user'@'localhost' IDENTIFIED BY 'PASSWORT';
+GRANT ALL PRIVILEGES ON heidi_db.* TO 'heidi_user'@'localhost';
+
+SHOW GRANTS FOR 'heidi_user'@'localhost';
+```
+
+Mit `exit` verlässt du die Konsole.
+
+Prüfe danach, ob sich der neue Benutzer so anmelden kann, wie es später das Backend tut – über TCP auf Port 3306:
+
+```bash
+mariadb --protocol=TCP --host=localhost --port=3306 --user=heidi_user --password heidi_db
+```
+
+Nach der Passworteingabe sollte die Konsole von `heidi_db` erscheinen. Zur Kontrolle:
+
+```sql
+SELECT CURRENT_USER();
+```
+
+Erwartet wird `heidi_user@localhost`.
+
+## 9. Backend konfigurieren
+
+Die Einstellungen des Backends – zum Beispiel der Datenbankzugang – liegen als Umgebungsvariablen in `/etc/HEiDi/environment.sh`. Diese Datei erzeugt das Setup-Skript `setup-env.sh` [Bezugsquelle ergänzen].
+
+Lade das Skript auf den Server und führe es **als root** aus:
+
+```bash
+sudo bash setup-env.sh /etc/HEiDi/environment.sh
+```
+
+Schütze die Datei anschließend – sie enthält das Datenbank-Passwort:
+
+```bash
+sudo chown root:heidi /etc/HEiDi/environment.sh
+sudo chmod 640 /etc/HEiDi/environment.sh
+```
+
+Jetzt kann nur noch `root` die Datei ändern, und nur der Dienst-Benutzer `heidi` kann sie lesen.
+
+## 10. Backend installieren und als Dienst starten
+
+Lade die Backend-Datei `ROOT.jar` [Bezugsquelle ergänzen] auf den Server und lege sie mit den richtigen Rechten ab:
+
+```bash
+sudo install -o root -g heidi -m 640 ROOT.jar /var/HEiDi/ROOT.jar
+```
+
+Lege die Dienst-Datei `/etc/systemd/system/heidi.service` an:
+
+```ini
+[Unit]
+Description=HEiDi
+After=network.target
+
+[Service]
+User=heidi
+WorkingDirectory=/var/HEiDi
+ExecStart=/bin/bash -c 'source /etc/HEiDi/environment.sh && exec /usr/bin/java -jar /var/HEiDi/ROOT.jar'
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Was die Einstellungen bewirken:
+
+`User=heidi`
+:   Das Backend läuft als Dienst-Benutzer, nicht als `root`.
+
+`ExecStart=…`
+:   Lädt zuerst die Umgebungsvariablen aus `environment.sh` und startet dann das Backend mit Java.
+
+`SuccessExitStatus=143`
+:   Java beendet sich beim normalen Stoppen mit dem Code 143. So wertet systemd das nicht als Fehler.
+
+`Restart=on-failure`, `RestartSec=5`
+:   Stürzt das Backend ab, startet systemd es nach 5 Sekunden neu.
+
+Dienst aktivieren und starten:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now heidi
+```
+
+Dienst prüfen:
+
+```bash
+sudo systemctl status heidi       # sollte "active (running)" zeigen
+sudo journalctl -u heidi -f       # laufende Log-Ausgabe, beenden mit Strg+C
+sudo ss -ltnp | grep 8080         # Backend sollte auf 127.0.0.1:8080 lauschen
+```
+
+!!! tip "Start nach der Datenbank"
+    Damit das Backend nach einem Neustart des Servers erst startet, wenn MariaDB bereit ist, kannst du im Abschnitt `[Unit]` ergänzen:
+
+    ```ini
+    After=network.target mariadb.service
+    Wants=mariadb.service
+    ```
+
+### Backend aktualisieren
+
+Eine neue Version installierst du, indem du die Datei ersetzt und den Dienst neu startest:
+
+```bash
+sudo install -o root -g heidi -m 640 ROOT.jar /var/HEiDi/ROOT.jar
+sudo systemctl restart heidi
+sudo systemctl status heidi
+```
+
+Mach vorher ein Backup der Datenbank.
+
+## 11. Server in der App verwenden
 
 Wenn alles läuft, melden sich deine Nutzerinnen und Nutzer so an:
 
@@ -210,9 +373,8 @@ Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</sp
 
 ## Noch zu ergänzen
 
-- [ ] Installation und Aktualisierung des HEiDi-Backends (Bezugsquelle, Start als Dienst, benötigte Java-Mindestversion)
-- [ ] Datenbank und Datenbank-Benutzer für HEiDi anlegen
-- [ ] Konfiguration des Backends (Datenbankzugang, Mailversand, Domain)
+- [ ] Bezugsquelle für `ROOT.jar` und `setup-env.sh`, benötigte Java-Mindestversion
+- [ ] Welche Einstellungen `setup-env.sh` abfragt (Datenbankzugang, Mailversand, Domain, Port)
 - [ ] Rechtstexte hinterlegen (Datenschutz, AGB, Impressum) – die App lädt sie vom Server
 - [ ] CORS-Freigabe, damit die Web-Version auf den Server zugreifen darf
 - [ ] Backups von Datenbank und hochgeladenen Dateien
