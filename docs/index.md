@@ -33,6 +33,14 @@ HEiDi ist die kostenlose **Hilfeapp für Einsatzdienste** – für alle, die ein
 
     [:octicons-arrow-right-24: Zu den Einstellungen](einstellungen.md)
 
+-   :material-pencil-ruler: **HEiDi-Editor**
+
+    ---
+
+    Eigene Pakete und Handbücher im Browser erstellen, Regeln festlegen, veröffentlichen.
+
+    [:octicons-arrow-right-24: Zum Editor](editor/index.md)
+
 -   :material-lifebuoy: **Hilfe**
 
     ---

@@ -12,7 +12,7 @@ Paket
 Handbuch
 :   Ein Handbuch bringt **Wissen** mit: Artikel, PDF-Dokumente und Entscheidungs-Algorithmen. Du kannst **mehrere Handbücher gleichzeitig** aktivieren, zum Beispiel das Handbuch deiner Organisation und eine Sammlung von Regelwerken.
 
-Pakete und Handbücher werden im **HEiDi-Editor** erstellt, einem Verwaltungsprogramm im Browser. Viele Organisationen stellen eigene Pakete bereit; manche sind frei verfügbar, andere mit einem Passwort geschützt. Für den Einstieg gibt es fertige **Basis-Pakete**.
+Pakete und Handbücher werden im **[HEiDi-Editor](../editor/index.md)** erstellt, einem Verwaltungsprogramm im Browser. Viele Organisationen stellen eigene Pakete bereit; manche sind frei verfügbar, andere mit einem Passwort geschützt. Für den Einstieg gibt es fertige **Basis-Pakete**.
 
 ## Was HEiDi kann
 

@@ -45,3 +45,12 @@ img.screenshot {
   font-weight: 600;
   white-space: nowrap;
 }
+
+/* Screenshots des HEiDi-Editors: Desktop-Format über die volle Breite */
+img.screenshot-desktop {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, .12);
+  box-shadow: 0 6px 18px rgba(18, 32, 74, .14);
+}

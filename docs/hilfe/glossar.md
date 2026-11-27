@@ -24,6 +24,9 @@ Einsatzstichwort
 Einsatzübersicht
 :   Die zentrale Ansicht eines Einsatzes, gegliedert in Abschnitte wie Vorbereitung, Einsatz und Nachbereitung.
 
+Fall
+:   Im HEiDi-Editor die übergeordnete Ebene, die mehrere Einsätze zusammenfasst.
+
 Handbuch
 :   Sammlung von Wissen in der App: Artikel, PDF-Dokumente und Algorithmen. Du kannst mehrere gleichzeitig aktivieren.
 
@@ -31,7 +34,7 @@ HEiDi
 :   Hilfeapp für Einsatzdienste.
 
 HEiDi-Editor
-:   Verwaltungsprogramm im Browser, mit dem Pakete und Handbücher erstellt werden.
+:   Verwaltungsprogramm im Browser unter [heidi.hilfeapp.org](https://heidi.hilfeapp.org), mit dem Pakete und Handbücher erstellt werden. Siehe [Der HEiDi-Editor](../editor/index.md).
 
 Lage
 :   Bündelt mehrere zusammengehörige Einsätze, z. B. bei einem mehrtägigen Katastrophenschutzeinsatz.
@@ -47,3 +50,6 @@ Startprotokoll
 
 VdUE e.V.
 :   Verein zur digitalen Unterstützung von Einsatzdiensten e.V., Träger von HEiDi.
+
+WENN-DANN-Regel
+:   Legt im Paket fest, welche Checklisten, Handbucheinträge, Materiallisten und Kontakte die Einsatzübersicht zu einem Einsatz zeigt. Siehe [WENN-DANN-Regeln](../editor/regeln.md).
