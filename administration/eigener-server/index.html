@@ -1,0 +1,2495 @@
+
+<!doctype html>
+<html lang="de" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Das Nachschlagewerk zu allen Funktionen der HEiDi-App – der Hilfeapp für Einsatzdienste.">
+      
+      
+        <meta name="author" content="Verein zur digitalen Unterstützung von Einsatzdiensten e.V.">
+      
+      
+        <link rel="canonical" href="https://vdue-e-v.github.io/heidi-benutzerhandbuch/administration/eigener-server/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../cloud-init/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Eigenen Server betreiben - HEiDi-Benutzerhandbuch</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eigenen-server-betreiben" class="md-skip">
+          Zum Inhalt
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href="../.." title="HEiDi-Benutzerhandbuch" class="md-header__button md-logo" aria-label="HEiDi-Benutzerhandbuch" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HEiDi-Benutzerhandbuch
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Eigenen Server betreiben
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Dunkles Design"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dunkles Design" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Helles Design"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Helles Design" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Suche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Suche wird initialisiert
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/VdUE-e-V/heidi-benutzerhandbuch" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    VdUE-e-V/heidi-benutzerhandbuch
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HEiDi-Benutzerhandbuch" class="md-nav__button md-logo" aria-label="HEiDi-Benutzerhandbuch" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HEiDi-Benutzerhandbuch
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/VdUE-e-V/heidi-benutzerhandbuch" title="Zum Repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    VdUE-e-V/heidi-benutzerhandbuch
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../erste-schritte/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Erste Schritte
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Erste Schritte
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../erste-schritte/was-ist-heidi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Was ist HEiDi?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../erste-schritte/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../erste-schritte/registrieren-und-anmelden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registrieren und anmelden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../erste-schritte/pakete-und-handbuecher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pakete und Handbücher einrichten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../app/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Die App im Einsatz
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Die App im Einsatz
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/startseite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Startseite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/einsaetze/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Einsätze
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/checklisten-und-protokolle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklisten und Protokolle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/material/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/handbuecher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbücher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/kontakte/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kontakte
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline arbeiten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../einstellungen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Einstellungen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../editor/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HEiDi-Editor
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HEiDi-Editor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editor/pakete/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pakete bearbeiten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editor/regeln/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WENN-DANN-Regeln
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editor/handbuecher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbücher bearbeiten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Für Administratoren
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Für Administratoren
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eigenen Server betreiben
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eigenen Server betreiben
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#so-ist-der-server-aufgebaut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        So ist der Server aufgebaut
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#voraussetzungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Voraussetzungen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-grundeinrichtung-zeitzone-und-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Grundeinrichtung: Zeitzone und Java
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Grundeinrichtung: Zeitzone und Java">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zeitzone-einstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zeitzone einstellen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-installieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java installieren
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-apache-module-aktivieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Apache-Module aktivieren
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-https-zertifikat-einrichten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. HTTPS-Zertifikat einrichten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-apache-als-reverse-proxy-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Apache als Reverse Proxy konfigurieren
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-firewall-einrichten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Firewall einrichten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mariadb-fur-groe-dateien-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. MariaDB für große Dateien konfigurieren
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-dienst-benutzer-und-verzeichnisse-anlegen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Dienst-Benutzer und Verzeichnisse anlegen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-datenbank-anlegen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Datenbank anlegen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-backend-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Backend konfigurieren
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Backend konfigurieren">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#die-einstellungen-im-einzelnen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Die Einstellungen im Einzelnen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datei-schutzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datei schützen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-nur-lokal-erreichbar-machen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend nur lokal erreichbar machen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-backend-installieren-und-als-dienst-starten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Backend installieren und als Dienst starten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-server-in-der-app-verwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Server in der App verwenden
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#im-laufenden-betrieb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Im laufenden Betrieb
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Im laufenden Betrieb">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#einstellungen-andern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Einstellungen ändern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-aktualisieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend aktualisieren
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs-ansehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logs ansehen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#noch-zu-erganzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Noch zu ergänzen
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-init/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server mit cloud-init einrichten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hilfe
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hilfe
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hilfe/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Häufige Fragen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hilfe/glossar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hilfe/neuigkeiten/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neuigkeiten
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mitmachen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mitmachen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#so-ist-der-server-aufgebaut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        So ist der Server aufgebaut
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#voraussetzungen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Voraussetzungen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-grundeinrichtung-zeitzone-und-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Grundeinrichtung: Zeitzone und Java
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Grundeinrichtung: Zeitzone und Java">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zeitzone-einstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zeitzone einstellen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-installieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java installieren
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-apache-module-aktivieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Apache-Module aktivieren
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-https-zertifikat-einrichten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. HTTPS-Zertifikat einrichten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-apache-als-reverse-proxy-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Apache als Reverse Proxy konfigurieren
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-firewall-einrichten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Firewall einrichten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mariadb-fur-groe-dateien-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. MariaDB für große Dateien konfigurieren
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-dienst-benutzer-und-verzeichnisse-anlegen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Dienst-Benutzer und Verzeichnisse anlegen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-datenbank-anlegen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Datenbank anlegen
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-backend-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Backend konfigurieren
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Backend konfigurieren">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#die-einstellungen-im-einzelnen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Die Einstellungen im Einzelnen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datei-schutzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datei schützen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-nur-lokal-erreichbar-machen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend nur lokal erreichbar machen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-backend-installieren-und-als-dienst-starten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Backend installieren und als Dienst starten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-server-in-der-app-verwenden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Server in der App verwenden
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#im-laufenden-betrieb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Im laufenden Betrieb
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Im laufenden Betrieb">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#einstellungen-andern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Einstellungen ändern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-aktualisieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend aktualisieren
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs-ansehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logs ansehen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#noch-zu-erganzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Noch zu ergänzen
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/VdUE-e-V/heidi-benutzerhandbuch/edit/main/docs/administration/eigener-server.md" title="Seite editieren" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="eigenen-server-betreiben">Eigenen Server betreiben<a class="headerlink" href="#eigenen-server-betreiben" title="Link zu diesem Abschnitt">&para;</a></h1>
+<p>Diese Anleitung beschreibt, wie du einen eigenen HEiDi-Backend-Server einrichtest: Zeitzone und Java, Apache als Reverse Proxy mit HTTPS, eine Firewall, die MariaDB-Datenbank und das Backend selbst als Dienst. Anschließend tragen deine Nutzerinnen und Nutzer die Adresse deines Servers in der App unter <strong>Anderer Server</strong> ein.</p>
+<div class="admonition tip">
+<p class="admonition-title">Automatisch einrichten</p>
+<p>Du richtest einen neuen Cloud-Server ein? Mit der <a href="../cloud-init/">cloud-init-Konfiguration</a> laufen alle Schritte dieser Anleitung automatisch ab.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Für erfahrene Administratoren</p>
+<p>Du brauchst Root-Zugang zu einem Linux-Server und Grundkenntnisse in Apache, Firewall und Datenbanken. Plane auch den laufenden Betrieb ein: Updates, Backups und Überwachung liegen bei dir.</p>
+</div>
+<h2 id="so-ist-der-server-aufgebaut">So ist der Server aufgebaut<a class="headerlink" href="#so-ist-der-server-aufgebaut" title="Link zu diesem Abschnitt">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>App / Web-Version
+        │  HTTPS, Port 443
+        ▼
+Apache (Reverse Proxy)
+        │  HTTP, nur lokal
+        ▼
+HEiDi-Backend   127.0.0.1:8080
+        │
+        ▼
+MariaDB         127.0.0.1:3306
+</code></pre></div>
+<ul>
+<li><strong>Apache</strong> nimmt alle Anfragen von außen über HTTPS an und leitet sie intern an das Backend weiter.</li>
+<li>Das <strong>HEiDi-Backend</strong> lauscht auf Port <strong>8080</strong> – nur lokal, wenn du es wie in Schritt 9 beschrieben einstellst. Von außen ist es nicht direkt erreichbar.</li>
+<li><strong>MariaDB</strong> speichert Accounts, Pakete, Handbücher und Einsatzdaten.</li>
+<li>Von außen offen sind nur <strong>22</strong> (SSH), <strong>80</strong> (HTTP, für das Zertifikat und die Weiterleitung) und <strong>443</strong> (HTTPS).</li>
+</ul>
+<h2 id="voraussetzungen">Voraussetzungen<a class="headerlink" href="#voraussetzungen" title="Link zu diesem Abschnitt">&para;</a></h2>
+<ul>
+<li>Ein Server mit <strong>Ubuntu oder Debian</strong> (die Befehle unten sind dafür geschrieben)</li>
+<li>Eine <strong>Domain</strong>, die auf den Server zeigt, z. B. <code>heidi.example.org</code></li>
+<li><strong>Apache 2.4.47 oder neuer</strong> (wegen der WebSocket-Weiterleitung, siehe unten) – prüfen mit <code>apache2 -v</code></li>
+<li><strong>MariaDB</strong></li>
+<li><strong>Java</strong> und die richtige <strong>Zeitzone</strong> – siehe Schritt 1</li>
+<li>Die Backend-Datei <a href="https://cloud.hilfeapp.org/s/Heidibackend"><strong><code>ROOT.jar</code></strong></a> und das Setup-Skript <a href="../setup-env.sh"><code>setup-env.sh</code></a></li>
+</ul>
+<p>In dieser Anleitung steht <code>heidi.example.org</code> für deine Domain. Ersetze sie überall durch deine eigene Adresse.</p>
+<h2 id="1-grundeinrichtung-zeitzone-und-java">1. Grundeinrichtung: Zeitzone und Java<a class="headerlink" href="#1-grundeinrichtung-zeitzone-und-java" title="Link zu diesem Abschnitt">&para;</a></h2>
+<h3 id="zeitzone-einstellen">Zeitzone einstellen<a class="headerlink" href="#zeitzone-einstellen" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p>Stelle die Zeitzone des Servers auf deutsche Zeit. Sonst stehen in Protokollen und Zeitstempeln Uhrzeiten in UTC, also eine bzw. zwei Stunden versetzt:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>timedatectl<span class="w"> </span>set-timezone<span class="w"> </span><span class="s2">"Europe/Berlin"</span>
+timedatectl
+</code></pre></div>
+<p>Bei <code>Time zone</code> sollte jetzt <code>Europe/Berlin</code> stehen, und <code>System clock synchronized</code> sollte <code>yes</code> anzeigen.</p>
+<h3 id="java-installieren">Java installieren<a class="headerlink" href="#java-installieren" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p>Das HEiDi-Backend ist eine Java-Anwendung. Installiere die Java-Laufzeitumgebung aus den Paketquellen deiner Distribution:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>default-jre
+</code></pre></div>
+<p><code>default-jre</code> installiert die Java-Version, die deine Ubuntu- bzw. Debian-Version als Standard vorsieht. Prüfen kannst du die Installation mit:</p>
+<div class="highlight"><pre><span></span><code>java<span class="w"> </span>-version
+</code></pre></div>
+<h2 id="2-apache-module-aktivieren">2. Apache-Module aktivieren<a class="headerlink" href="#2-apache-module-aktivieren" title="Link zu diesem Abschnitt">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>a2enmod<span class="w"> </span>proxy<span class="w"> </span>proxy_http<span class="w"> </span>headers<span class="w"> </span>ssl
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Modul</th>
+<th>Wofür</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proxy</code>, <code>proxy_http</code></td>
+<td>Anfragen an das Backend weiterleiten</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>Kopfzeilen der Anfragen setzen und entfernen</td>
+</tr>
+<tr>
+<td><code>ssl</code></td>
+<td>HTTPS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-https-zertifikat-einrichten">3. HTTPS-Zertifikat einrichten<a class="headerlink" href="#3-https-zertifikat-einrichten" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Für HTTPS brauchst du ein Zertifikat. Kostenlos geht das mit <strong>Let’s Encrypt</strong> und Certbot:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>certbot<span class="w"> </span>python3-certbot-apache
+sudo<span class="w"> </span>certbot<span class="w"> </span>--apache<span class="w"> </span>-d<span class="w"> </span>heidi.example.org
+</code></pre></div>
+<p>Certbot legt dabei die Datei <code>/etc/apache2/sites-available/000-default-le-ssl.conf</code> an, richtet auf Wunsch die Weiterleitung von HTTP auf HTTPS ein und erneuert das Zertifikat automatisch.</p>
+<h2 id="4-apache-als-reverse-proxy-konfigurieren">4. Apache als Reverse Proxy konfigurieren<a class="headerlink" href="#4-apache-als-reverse-proxy-konfigurieren" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Ergänze im <code>&lt;VirtualHost *:443&gt;</code>-Block der HTTPS-Konfiguration, z. B. in <code>000-default-le-ssl.conf</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">ServerName</span><span class="w"> </span>heidi.example.org
+
+<span class="nb">ProxyRequests</span><span class="w"> </span><span class="k">Off</span>
+<span class="nb">ProxyPreserveHost</span><span class="w"> </span><span class="k">On</span>
+<span class="nb">ProxyAddHeaders</span><span class="w"> </span><span class="k">On</span>
+
+<span class="c"># Von außen mitgeschickte Weiterleitungs-Header verwerfen ...</span>
+<span class="nb">RequestHeader</span><span class="w"> </span>unset<span class="w"> </span>Forwarded
+<span class="nb">RequestHeader</span><span class="w"> </span>unset<span class="w"> </span>X-Forwarded-For
+<span class="nb">RequestHeader</span><span class="w"> </span>unset<span class="w"> </span>X-Forwarded-Host
+<span class="nb">RequestHeader</span><span class="w"> </span>unset<span class="w"> </span>X-Forwarded-Server
+<span class="nb">RequestHeader</span><span class="w"> </span>unset<span class="w"> </span>X-Forwarded-Proto
+<span class="nb">RequestHeader</span><span class="w"> </span>unset<span class="w"> </span>X-Forwarded-Port
+<span class="c"># ... und durch eigene, vertrauenswürdige Werte ersetzen</span>
+<span class="nb">RequestHeader</span><span class="w"> </span>set<span class="w"> </span>X-Forwarded-Proto<span class="w"> </span><span class="s2">"https"</span>
+<span class="nb">RequestHeader</span><span class="w"> </span>set<span class="w"> </span>X-Forwarded-Port<span class="w"> </span><span class="s2">"443"</span>
+
+<span class="nb">ProxyPass</span><span class="w">        </span>/<span class="w"> </span>http://127.0.0.1:8080/<span class="w"> </span>upgrade=websocket
+<span class="nb">ProxyPassReverse</span><span class="w"> </span>/<span class="w"> </span>http://127.0.0.1:8080/
+</code></pre></div>
+<p>Was die Einstellungen bewirken:</p>
+<dl>
+<dt><code>ProxyRequests Off</code></dt>
+<dd>Apache arbeitet nur als Reverse Proxy für deinen Server – nicht als offener Proxy für beliebige Adressen im Internet. <strong>Unbedingt so lassen.</strong></dd>
+<dt><code>ProxyPreserveHost On</code></dt>
+<dd>Das Backend sieht die echte Domain (<code>heidi.example.org</code>) statt <code>127.0.0.1</code>.</dd>
+<dt><code>ProxyAddHeaders On</code> und <code>RequestHeader …</code></dt>
+<dd>Apache teilt dem Backend mit, dass die ursprüngliche Anfrage per HTTPS kam und von welcher IP-Adresse. Weil vorher alle von außen mitgeschickten <code>Forwarded</code>- und <code>X-Forwarded-*</code>-Header entfernt werden, kann niemand dem Backend eine falsche Herkunft vorgaukeln.</dd>
+<dt><code>ProxyPass … upgrade=websocket</code></dt>
+<dd>Leitet alle Anfragen an das Backend weiter, auch WebSocket-Verbindungen. Die Option <code>upgrade=websocket</code> gibt es erst ab <strong>Apache 2.4.47</strong>.</dd>
+</dl>
+<p>Konfiguration testen und Apache neu laden:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apache2ctl<span class="w"> </span>configtest<span class="w">      </span><span class="c1"># muss "Syntax OK" melden</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>apache2
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Große Uploads</p>
+<p>Wenn Pakete oder Handbücher mit großen PDF-Dateien hochgeladen werden, achte auch auf die Limits in Apache: <code>LimitRequestBody</code> (ab Apache 2.4.53 standardmäßig 1 GB) und bei langsamen Verbindungen <code>ProxyTimeout</code>.</p>
+</div>
+<h2 id="5-firewall-einrichten">5. Firewall einrichten<a class="headerlink" href="#5-firewall-einrichten" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Prüfe zuerst den aktuellen Stand und welche Dienste auf welchen Ports lauschen:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>verbose
+sudo<span class="w"> </span>ufw<span class="w"> </span>show<span class="w"> </span>added
+sudo<span class="w"> </span>ss<span class="w"> </span>-ltnp
+</code></pre></div>
+<p>In der Ausgabe von <code>ss -ltnp</code> sollte MariaDB (<code>3306</code>) <strong>nur auf <code>127.0.0.1</code></strong> lauschen, nicht auf <code>0.0.0.0</code> oder <code>*</code>. Für das Backend (<code>8080</code>) stellst du das in <a href="#backend-nur-lokal-erreichbar-machen">Schritt 9</a> ein.</p>
+<p>Firewall-Regeln festlegen:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>deny<span class="w"> </span>incoming
+sudo<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>outgoing
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">22</span>/tcp<span class="w">     </span><span class="c1"># SSH</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">80</span>/tcp<span class="w">     </span><span class="c1"># HTTP (Zertifikat, Weiterleitung auf HTTPS)</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">443</span>/tcp<span class="w">    </span><span class="c1"># HTTPS</span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Erst SSH freigeben, dann einschalten</p>
+<p>Schalte die Firewall erst ein, <strong>nachdem</strong> Port 22 freigegeben ist. Sonst sperrst du dich aus, wenn du per SSH verbunden bist.</p>
+</div>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ufw<span class="w"> </span><span class="nb">enable</span>
+sudo<span class="w"> </span>ufw<span class="w"> </span>status<span class="w"> </span>numbered
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Docker umgeht ufw</p>
+<p>Läuft das Backend in einem Docker-Container, veröffentliche den Port nur lokal, z. B. <code>-p 127.0.0.1:8080:8080</code>. Ein einfaches <code>-p 8080:8080</code> macht den Port im Internet erreichbar – <strong>auch wenn ufw ihn blockiert</strong>, weil Docker eigene Firewall-Regeln setzt.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">SSH zusätzlich schützen</p>
+<p><code>sudo ufw limit 22/tcp</code> statt <code>allow</code> bremst wiederholte Anmeldeversuche. Noch sicherer: Anmeldung nur per SSH-Schlüssel und Passwort-Login abschalten.</p>
+</div>
+<h2 id="6-mariadb-fur-groe-dateien-konfigurieren">6. MariaDB für große Dateien konfigurieren<a class="headerlink" href="#6-mariadb-fur-groe-dateien-konfigurieren" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Damit auch große Dateien (z. B. PDFs in Handbüchern) gespeichert werden können, muss MariaDB größere Datenpakete annehmen. Trage im Abschnitt <code>[mariadbd]</code> ein:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[mariadbd]</span>
+<span class="na">max_allowed_packet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1G</span>
+</code></pre></div>
+<p>Wo die Einstellung hingehört:</p>
+<ul>
+<li>auf Ubuntu und Debian am besten in <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code></li>
+<li>oder in <code>/etc/mysql/my.cnf</code> – Hauptsache im Abschnitt <code>[mysqld]</code> oder <code>[mariadbd]</code></li>
+</ul>
+<p><code>1G</code> ist der Höchstwert, den MariaDB erlaubt. Ein kleinerer Wert spart Arbeitsspeicher, muss aber für die größte Datei reichen, die hochgeladen wird.</p>
+<p>MariaDB neu starten und prüfen:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>mariadb
+sudo<span class="w"> </span>mariadb<span class="w"> </span>-e<span class="w"> </span><span class="s2">"SHOW VARIABLES LIKE 'max_allowed_packet';"</span>
+</code></pre></div>
+<p>Der Wert wird in Byte angezeigt; <code>1073741824</code> entspricht 1 GB.</p>
+<h2 id="7-dienst-benutzer-und-verzeichnisse-anlegen">7. Dienst-Benutzer und Verzeichnisse anlegen<a class="headerlink" href="#7-dienst-benutzer-und-verzeichnisse-anlegen" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Das Backend läuft unter einem eigenen Systembenutzer <code>heidi</code> ohne Login und ohne Home-Verzeichnis. So hat es nur die Rechte, die es wirklich braucht.</p>
+<p>Prüfe zuerst, ob es Benutzer oder Gruppe schon gibt:</p>
+<div class="highlight"><pre><span></span><code>getent<span class="w"> </span>passwd<span class="w"> </span>heidi
+getent<span class="w"> </span>group<span class="w"> </span>heidi
+</code></pre></div>
+<p>Liefern <strong>beide</strong> Befehle keine Ausgabe, lege den Benutzer an:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--user-group<span class="w"> </span>--no-create-home<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--home-dir<span class="w"> </span>/nonexistent<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>heidi
+</code></pre></div>
+<p>Ergebnis prüfen:</p>
+<div class="highlight"><pre><span></span><code>id<span class="w"> </span>heidi
+getent<span class="w"> </span>passwd<span class="w"> </span>heidi
+</code></pre></div>
+<p>Lege dann die beiden Verzeichnisse an – <code>/var/HEiDi</code> für das Backend und <code>/etc/HEiDi</code> für die Konfiguration:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>install<span class="w"> </span>-d<span class="w"> </span>-o<span class="w"> </span>root<span class="w"> </span>-g<span class="w"> </span>heidi<span class="w"> </span>-m<span class="w"> </span><span class="m">750</span><span class="w"> </span>/var/HEiDi<span class="w"> </span>/etc/HEiDi
+</code></pre></div>
+<p>Beide gehören <code>root</code>; die Gruppe <code>heidi</code> darf lesen, aber nichts verändern.</p>
+<h2 id="8-datenbank-anlegen">8. Datenbank anlegen<a class="headerlink" href="#8-datenbank-anlegen" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Öffne die Datenbank-Konsole:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>mariadb
+</code></pre></div>
+<p>Lege Datenbank und Benutzer an und vergib die Rechte. Ersetze <code>PASSWORT</code> durch ein <strong>langes, zufälliges Passwort</strong>, das du sonst nirgends verwendest:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">heidi_db</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8mb4</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">'heidi_user'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">'PASSWORT'</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">heidi_db</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'heidi_user'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+
+<span class="k">SHOW</span><span class="w"> </span><span class="n">GRANTS</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="s1">'heidi_user'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span>
+</code></pre></div>
+<p>Mit <code>exit</code> verlässt du die Konsole.</p>
+<p>Prüfe danach, ob sich der neue Benutzer so anmelden kann, wie es später das Backend tut – über TCP auf Port 3306:</p>
+<div class="highlight"><pre><span></span><code>mariadb<span class="w"> </span>--protocol<span class="o">=</span>TCP<span class="w"> </span>--host<span class="o">=</span>localhost<span class="w"> </span>--port<span class="o">=</span><span class="m">3306</span><span class="w"> </span>--user<span class="o">=</span>heidi_user<span class="w"> </span>--password<span class="w"> </span>heidi_db
+</code></pre></div>
+<p>Nach der Passworteingabe sollte die Konsole von <code>heidi_db</code> erscheinen. Zur Kontrolle:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_USER</span><span class="p">();</span>
+</code></pre></div>
+<p>Erwartet wird <code>heidi_user@localhost</code>.</p>
+<h2 id="9-backend-konfigurieren">9. Backend konfigurieren<a class="headerlink" href="#9-backend-konfigurieren" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Die Einstellungen des Backends – Port, Datenbankzugang, Administrator, E-Mail – liegen als Umgebungsvariablen in <code>/etc/HEiDi/environment.sh</code>. Diese Datei erzeugt das Setup-Skript <strong><a href="../setup-env.sh"><code>setup-env.sh</code></a></strong>.</p>
+<p>Lade das Skript auf den Server, zum Beispiel direkt aus diesem Benutzerhandbuch:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://vdue-e-v.github.io/heidi-benutzerhandbuch/administration/setup-env.sh
+</code></pre></div>
+<p>Führe es <strong>als root</strong> aus und gib als Ziel die Konfigurationsdatei an:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>bash<span class="w"> </span>setup-env.sh<span class="w"> </span>/etc/HEiDi/environment.sh
+</code></pre></div>
+<p>Das Skript fragt die Einstellungen nacheinander ab. In eckigen Klammern steht jeweils der Vorschlag – mit <span class="keys"><kbd class="key-enter">Enter</kbd></span> übernimmst du ihn. Passwörter werden unsichtbar eingegeben und müssen zur Bestätigung wiederholt werden.</p>
+<div class="admonition warning">
+<p class="admonition-title">Datenbankname und -benutzer anpassen</p>
+<p>Das Skript schlägt <code>heidi</code> als Datenbankname und Datenbank-Benutzer vor. In <a href="#8-datenbank-anlegen">Schritt 8</a> hast du aber <code>heidi_db</code> und <code>heidi_user</code> angelegt. Tippe bei diesen beiden Fragen also <strong><code>heidi_db</code></strong> bzw. <strong><code>heidi_user</code></strong> ein, statt den Vorschlag zu übernehmen.</p>
+</div>
+<h3 id="die-einstellungen-im-einzelnen">Die Einstellungen im Einzelnen<a class="headerlink" href="#die-einstellungen-im-einzelnen" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p><strong>Server und Uploads</strong></p>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Vorschlag</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server port</td>
+<td><code>8080</code></td>
+<td>Port des Backends. Muss zur Apache-Konfiguration (<code>ProxyPass … 127.0.0.1:8080</code>) passen.</td>
+</tr>
+<tr>
+<td>Tomcat connection timeout</td>
+<td><code>300</code></td>
+<td>Wartezeit für Verbindungen</td>
+</tr>
+<tr>
+<td>Tomcat keep-alive timeout</td>
+<td><code>300</code></td>
+<td>wie lange eine Verbindung offen gehalten wird</td>
+</tr>
+<tr>
+<td>Compression enabled</td>
+<td><code>false</code></td>
+<td>Komprimierung der Antworten</td>
+</tr>
+<tr>
+<td>Maximum file size</td>
+<td><code>100MB</code></td>
+<td>größte Datei, die hochgeladen werden kann, z. B. ein PDF im Handbuch</td>
+</tr>
+<tr>
+<td>Maximum request size</td>
+<td><code>100MB</code></td>
+<td>größte Anfrage insgesamt</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Datenbank</strong></p>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Vorschlag</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database host</td>
+<td><code>localhost</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Database port</td>
+<td><code>3306</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Database name</td>
+<td><code>heidi</code></td>
+<td><strong><code>heidi_db</code></strong> eintragen (siehe oben)</td>
+</tr>
+<tr>
+<td>Database username</td>
+<td><code>heidi</code></td>
+<td><strong><code>heidi_user</code></strong> eintragen (siehe oben)</td>
+</tr>
+<tr>
+<td>Database password</td>
+<td>–</td>
+<td>das Passwort aus Schritt 8</td>
+</tr>
+<tr>
+<td>Hibernate schema management</td>
+<td><code>update</code></td>
+<td>Das Backend legt die Tabellen beim ersten Start an und passt sie bei Updates an. So lassen.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logging</strong></p>
+<p>Die vier Log-Level (<code>warn</code>, <code>ERROR</code>, <code>error</code>, <code>ERROR</code>) kannst du übernehmen. Bei der Fehlersuche lassen sie sich später erhöhen.</p>
+<p><strong>Administrator und Speicher</strong></p>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Vorschlag</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial administrator username</td>
+<td><code>admin</code></td>
+<td>Benutzername des ersten Administrators</td>
+</tr>
+<tr>
+<td>Initial administrator password</td>
+<td>–</td>
+<td>Passwort des ersten Administrators</td>
+</tr>
+<tr>
+<td>Deprecated storage path</td>
+<td>leer</td>
+<td>veraltet – leer lassen</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Keine leeren Passwörter</p>
+<p>Das Skript erlaubt leere Passwörter. Vergib für den <strong>Administrator</strong> und die <strong>Datenbank</strong> unbedingt lange, zufällige Passwörter – ein leeres Administrator-Passwort würde jedem Zugang zu deinem Server geben.</p>
+</div>
+<p><strong>E-Mail</strong></p>
+<p>Zugangsdaten des Postfachs, über das der Server E-Mails verschickt, zum Beispiel für die Bestätigung neuer Accounts. Typische Werte für einen Mailserver mit STARTTLS:</p>
+<table>
+<thead>
+<tr>
+<th>Frage</th>
+<th>Beispiel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email username</td>
+<td><code>heidi@example.org</code></td>
+</tr>
+<tr>
+<td>Email password</td>
+<td>Passwort des Postfachs</td>
+</tr>
+<tr>
+<td>Email server</td>
+<td><code>smtp.example.org</code></td>
+</tr>
+<tr>
+<td>Email transport protocol</td>
+<td><code>smtp</code></td>
+</tr>
+<tr>
+<td>SMTP port</td>
+<td><code>587</code></td>
+</tr>
+<tr>
+<td>SMTP authentication</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>SMTP STARTTLS enabled</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>SMTP STARTTLS required</td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<p>Die richtigen Werte bekommst du von deinem E-Mail-Anbieter.</p>
+<h3 id="datei-schutzen">Datei schützen<a class="headerlink" href="#datei-schutzen" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p>Das Skript legt die Datei so an, dass nur <code>root</code> sie lesen kann. Damit der Dienst-Benutzer <code>heidi</code> sie lesen darf, änderst du Besitzer und Rechte:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chown<span class="w"> </span>root:heidi<span class="w"> </span>/etc/HEiDi/environment.sh
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">640</span><span class="w"> </span>/etc/HEiDi/environment.sh
+</code></pre></div>
+<p>Jetzt kann nur <code>root</code> die Datei ändern, und nur <code>root</code> und <code>heidi</code> können sie lesen. Das ist wichtig, denn sie enthält alle Passwörter im Klartext.</p>
+<h3 id="backend-nur-lokal-erreichbar-machen">Backend nur lokal erreichbar machen<a class="headerlink" href="#backend-nur-lokal-erreichbar-machen" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p>Das Backend nimmt standardmäßig Verbindungen auf <strong>allen</strong> Netzwerkschnittstellen an. Die Firewall aus <a href="#5-firewall-einrichten">Schritt 5</a> blockiert Port 8080 zwar von außen. Sicherer ist es aber, wenn das Backend gar nicht erst nach außen lauscht. Ergänze dafür am Ende von <code>environment.sh</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SERVER_ADDRESS</span><span class="o">=</span><span class="m">127</span>.0.0.1
+</code></pre></div>
+<p>Ob das klappt, prüfst du in <a href="#10-backend-installieren-und-als-dienst-starten">Schritt 10</a>, sobald der Dienst läuft.</p>
+<p>Wie du die Einstellungen später änderst, steht unter <a href="#einstellungen-andern">Im laufenden Betrieb</a>.</p>
+<h2 id="10-backend-installieren-und-als-dienst-starten">10. Backend installieren und als Dienst starten<a class="headerlink" href="#10-backend-installieren-und-als-dienst-starten" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Die aktuelle Version des Backends stellt der VdUE als Datei <code>ROOT.jar</code> in der <a href="https://cloud.hilfeapp.org/s/Heidibackend">HEiDi-Cloud</a> bereit. Lade sie direkt auf den Server:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>ROOT.jar<span class="w"> </span>https://cloud.hilfeapp.org/s/Heidibackend/download
+ls<span class="w"> </span>-lh<span class="w"> </span>ROOT.jar<span class="w">        </span><span class="c1"># rund 115 MB</span>
+</code></pre></div>
+<p>Lege sie dann mit den richtigen Rechten ab:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>install<span class="w"> </span>-o<span class="w"> </span>root<span class="w"> </span>-g<span class="w"> </span>heidi<span class="w"> </span>-m<span class="w"> </span><span class="m">640</span><span class="w"> </span>ROOT.jar<span class="w"> </span>/var/HEiDi/ROOT.jar
+</code></pre></div>
+<p>Lege die Dienst-Datei <code>/etc/systemd/system/heidi.service</code> an:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">HEiDi</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">heidi</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/var/HEiDi</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/bin/bash -c 'source /etc/HEiDi/environment.sh &amp;&amp; exec /usr/bin/java -jar /var/HEiDi/ROOT.jar'</span>
+<span class="na">SuccessExitStatus</span><span class="o">=</span><span class="s">143</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">on-failure</span>
+<span class="na">RestartSec</span><span class="o">=</span><span class="s">5</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+<p>Was die Einstellungen bewirken:</p>
+<dl>
+<dt><code>User=heidi</code></dt>
+<dd>Das Backend läuft als Dienst-Benutzer, nicht als <code>root</code>.</dd>
+<dt><code>ExecStart=…</code></dt>
+<dd>Lädt zuerst die Umgebungsvariablen aus <code>environment.sh</code> und startet dann das Backend mit Java.</dd>
+<dt><code>SuccessExitStatus=143</code></dt>
+<dd>Java beendet sich beim normalen Stoppen mit dem Code 143. So wertet systemd das nicht als Fehler.</dd>
+<dt><code>Restart=on-failure</code>, <code>RestartSec=5</code></dt>
+<dd>Stürzt das Backend ab, startet systemd es nach 5 Sekunden neu.</dd>
+</dl>
+<p>Dienst aktivieren und starten:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>heidi
+</code></pre></div>
+<p>Dienst prüfen:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>heidi<span class="w">       </span><span class="c1"># sollte "active (running)" zeigen</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>heidi<span class="w"> </span>-f<span class="w">       </span><span class="c1"># laufende Log-Ausgabe, beenden mit Strg+C</span>
+sudo<span class="w"> </span>ss<span class="w"> </span>-ltnp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">8080</span><span class="w">         </span><span class="c1"># Backend sollte auf 127.0.0.1:8080 lauschen</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Start nach der Datenbank</p>
+<p>Damit das Backend nach einem Neustart des Servers erst startet, wenn MariaDB bereit ist, kannst du im Abschnitt <code>[Unit]</code> ergänzen:</p>
+<div class="highlight"><pre><span></span><code><span class="na">After</span><span class="o">=</span><span class="s">network.target mariadb.service</span>
+<span class="na">Wants</span><span class="o">=</span><span class="s">mariadb.service</span>
+</code></pre></div>
+</div>
+<h2 id="11-server-in-der-app-verwenden">11. Server in der App verwenden<a class="headerlink" href="#11-server-in-der-app-verwenden" title="Link zu diesem Abschnitt">&para;</a></h2>
+<p>Wenn alles läuft, melden sich deine Nutzerinnen und Nutzer so an:</p>
+<ol>
+<li>In der App auf <strong>Registrieren</strong> bzw. <strong>Anmelden</strong> tippen.</li>
+<li><strong>Anderer Server</strong> wählen.</li>
+<li>Bei <strong>Server-URL</strong> die Adresse eintragen, z. B. <code>https://heidi.example.org</code>.</li>
+</ol>
+<p>Zur Kontrolle: Unter <span class="klickweg">Einstellungen › Startprotokoll</span> zeigt die App, ob Anmeldung, Paketlisten und Rechtstexte vom Server geladen werden konnten.</p>
+<h2 id="im-laufenden-betrieb">Im laufenden Betrieb<a class="headerlink" href="#im-laufenden-betrieb" title="Link zu diesem Abschnitt">&para;</a></h2>
+<h3 id="einstellungen-andern">Einstellungen ändern<a class="headerlink" href="#einstellungen-andern" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p>Das Setup-Skript überschreibt keine vorhandene Datei. Um Einstellungen zu ändern, bearbeite <code>/etc/HEiDi/environment.sh</code> direkt und starte den Dienst danach neu:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/HEiDi/environment.sh
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>heidi
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>heidi
+</code></pre></div>
+<h3 id="backend-aktualisieren">Backend aktualisieren<a class="headerlink" href="#backend-aktualisieren" title="Link zu diesem Abschnitt">&para;</a></h3>
+<p>Eine neue Version installierst du, indem du die aktuelle Datei herunterlädst, sie ersetzt und den Dienst neu startest:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>ROOT.jar<span class="w"> </span>https://cloud.hilfeapp.org/s/Heidibackend/download
+sudo<span class="w"> </span>install<span class="w"> </span>-o<span class="w"> </span>root<span class="w"> </span>-g<span class="w"> </span>heidi<span class="w"> </span>-m<span class="w"> </span><span class="m">640</span><span class="w"> </span>ROOT.jar<span class="w"> </span>/var/HEiDi/ROOT.jar
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>heidi
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>heidi
+</code></pre></div>
+<p>Mach vorher ein Backup der Datenbank.</p>
+<h3 id="logs-ansehen">Logs ansehen<a class="headerlink" href="#logs-ansehen" title="Link zu diesem Abschnitt">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>heidi<span class="w"> </span>-f<span class="w">              </span><span class="c1"># laufend mitlesen, beenden mit Strg+C</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>heidi<span class="w"> </span>--since<span class="w"> </span>today<span class="w">   </span><span class="c1"># alles von heute</span>
+</code></pre></div>
+<h2 id="noch-zu-erganzen">Noch zu ergänzen<a class="headerlink" href="#noch-zu-erganzen" title="Link zu diesem Abschnitt">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Benötigte Java-Mindestversion</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Versionsnummer und Prüfsumme für <code>ROOT.jar</code>, damit man erkennt, welche Version installiert ist</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Rechtstexte hinterlegen (Datenschutz, AGB, Impressum) – die App lädt sie vom Server</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> CORS-Freigabe, damit die Web-Version auf den Server zugreifen darf</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Backups von Datenbank und hochgeladenen Dateien</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Updates und Überwachung</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Zurück zum Seitenanfang
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Fußzeile" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Zurück: Für Administratoren">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Zurück
+              </span>
+              <div class="md-ellipsis">
+                Für Administratoren
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../cloud-init/" class="md-footer__link md-footer__link--next" aria-label="Weiter: Server mit cloud-init einrichten">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Weiter
+              </span>
+              <div class="md-ellipsis">
+                Server mit cloud-init einrichten
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Texte und Bilder: <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.de">CC BY-SA 4.0</a> · Verein zur digitalen Unterstützung von Einsatzdiensten e.V. · <a href="https://www.hilfeapp.org">hilfeapp.org</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
