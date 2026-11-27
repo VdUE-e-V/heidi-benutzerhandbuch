@@ -7,6 +7,7 @@ Hier halten wir fest, was sich in der App und im Benutzerhandbuch geändert hat 
 Am **5. Dezember 2026** startet die von Grund auf neu entwickelte HEiDi für iPhone, iPad, Android und den Browser.
 
 - [Versionsnummer und wichtigste Neuerungen ergänzen]
+- Neues Kapitel **[HEiDi-Editor](../editor/index.md)**: Pakete und Handbücher unter heidi.hilfeapp.org bearbeiten, WENN-DANN-Regeln und Veröffentlichen.
 
 ## November 2026 – Benutzerhandbuch online
 

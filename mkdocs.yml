@@ -85,6 +85,11 @@ nav:
       - Kontakte: app/kontakte.md
       - Offline arbeiten: app/offline.md
   - Einstellungen: einstellungen.md
+  - HEiDi-Editor:
+      - editor/index.md
+      - Pakete bearbeiten: editor/pakete.md
+      - WENN-DANN-Regeln: editor/regeln.md
+      - Handbücher bearbeiten: editor/handbuecher.md
   - Für Administratoren:
       - administration/index.md
       - Eigenen Server betreiben: administration/eigener-server.md
